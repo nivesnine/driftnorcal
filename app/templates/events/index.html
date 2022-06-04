@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Events{% endblock %}
+
+{% block content %}
+<div class="ui one column grid container">
+    <div class="column">
+      <h1>Events</h1>
+      <table class="ui striped table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Host</th>
+              <th>Location</th>
+              <th>Price</th>
+              <th>View Details</th>
+            </tr>
+        </thead>
+    </table>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $('table.striped.table').DataTable( {
+          "ajax": "{{ url_for('events.index', ajax=1) }}"
+      });
+  })
+</script>
+{% endblock %}

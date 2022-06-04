@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+
+<div class="ui container">
+  <img class="ui fluid image" src="{{ url_for('static', filename='background_home.png') }}">    
+  <div class="ui inverted text container segment" style="top: -100px;">
+    <h1 class="ui header">Welcome</h1>
+    <p>Drift NorCal aims to bring the community together. Drivers, Event Hosts, Shops, and Media Personnel all in one cohesive place on the internet. We're not here to make money. You are just as much apart of this as we are.</p>
+  </div>
+</div>
+{% endblock %}

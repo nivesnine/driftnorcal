@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Event{% endblock %}
+{% block content %}
+
+<div class="ui stackable grid">
+  <div class="four wide column"></div>
+  <div class="ten wide column">
+    <form action="{% if form.id %} {{url_for('admin.edit_event', event_id=form.id.data) }} {% else %} {{ url_for('admin.create_event') }} {% endif %}" method="POST" name="post_form" class="ui form">
+        {% for f in form %}
+             <div class="field">
+            		{% if f.name == 'submit' %}
+                  <a class="ui red left floated button" href="{{ url_for('admin.event_list') }}">Cancel</a>
+            			{{ f(class='ui blue right floated button') }}
+                {% elif f.name == 'id' %}
+                  {{ f }}
+                {% elif f.name == 'details' %}
+                  {{ f.label }}
+                  {{ f(class='form-control ckeditor')}}
+                {% else %}
+            			{{ f.label }}
+                  {{ f(placeholder=f.name.replace('_', ' ')) }}
+            		{% endif %}
+              </div>
+        {% endfor %}
+    </form>
+  </div>
+  <div class="sixteen wide column">
+    {% if form.errors %}
+    <div class='ui error message'>
+        {% for error in form.errors %}
+          <h5>{{ error }}</h5>
+          <p>{{ form.errors[error] }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+{% endblock %}

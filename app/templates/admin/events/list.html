@@ -1,0 +1,66 @@
+{% extends "admin/admin-base.html" %}
+{% block title %}Event List{% endblock %}
+{% block content %}
+
+<div class="ui stackable grid">
+  <div class="four wide column"></div>
+  <div class="center aligned ten wide column">
+{% if events %}
+    <table class="ui striped table">
+        <thead>
+            <tr>
+                <th>Event ID
+                    <a href="{{url_for('admin.event_list', page=1)}}?sort=id&d=asc">
+                      <i class='caret up icon'></i>
+                    </a>
+                    <a href="{{url_for('admin.event_list', page=1)}}?sort=id&d=desc">
+                      <i class='caret down icon'></i>
+                    </a>
+                </th>
+                <th>Name
+                    <a href="{{url_for('admin.event_list', page=1)}}?sort=name&d=asc">
+                      <i class='caret up icon'></i>
+                    </a>
+                    <a href="{{url_for('admin.event_list', page=1)}}?sort=name&d=desc">
+                      <i class='caret down icon'></i>
+                    </a>
+                </th>
+                <th>Edit</th>
+                {% if current_user.is_admin() %}<th>Delete</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events.items %}
+            <tr>
+                <td>{{ event.id }}</td>
+                <td>{{ event.name }}</td>
+                <td><a class='ui tiny yellow button' href="{{ url_for('admin.edit_event', event_id=event.id) }}"><i class='pencil icon'></i>Edit</a></td>
+                {% if current_user.is_admin() %}<td><a class='ui tiny red button' href="{{ url_for('admin.delete_event', event_id=event.id) }}"><i class='trash icon'></i>Delete</a></td>{% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+  <p> You don't have any events </p>
+  {% endif %}
+
+  {% if events.has_prev %}
+    <a class='ui mini button blue left floated' href="{{ url_for('admin.event_list', page=events.prev_num) }}{% if 'sort' in request.args %}?sort={{request.args['sort']}}&d={{request.args['d']}}{% endif %}">
+      <i class='icon caret left'></i>
+    </a>
+  {% endif %}
+
+  {% if current_user.has_role('admin') %}
+    <a href="{{ url_for('admin.create_event') }}" class="ui mini button green"><i class='plus icon'></i> Create Post</a>
+  {% endif %}
+
+  {% if events.has_next %}
+    <a class='ui mini button blue right floated' href="{{ url_for('admin.event_list', page=events.next_num) }}{% if 'sort' in request.args %}?sort={{request.args['sort']}}&d={{request.args['d']}}{% endif %}">
+      <i class='icon caret right'></i>
+    </a>
+  {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}

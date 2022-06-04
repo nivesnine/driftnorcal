@@ -1,0 +1,52 @@
+{% macro menu() -%}
+<div class="ui container">
+  <div class="ui large inverted secondary pointing menu">
+    <a class="toc item">
+      <i class="sidebar icon"></i>
+    </a>
+    <a class="header item inverted" href="{{ url_for('site.index') }}">Drift NorCal</a>
+
+    <div class="right item" style='padding: 0;'>
+      <a class="item inverted {%- if request.path == url_for('events.index') %} active{% endif %}" href="{{ url_for('events.index') }}">Events</a>
+      <a class="item inverted {%- if request.path == url_for('media.index') %} active{% endif %}" href="{{ url_for('media.index') }}">Media</a>
+      <a class="item inverted {%- if request.path == url_for('shops.index') %} active{% endif %}" href="{{ url_for('shops.index') }}">Shops</a>
+      <a class="item inverted" target="_blank" href="https://discord.gg/8qrHdhjGy4">Community</a>
+      {% if current_user.is_authenticated %}
+        <div class="ui right dropdown item">
+          <i class='user icon' aria-hidden="true"></i>
+          <i class="dropdown icon" aria-hidden="true"></i>
+          <div class="menu">
+            <a class="item" href="{{ url_for('admin.index') }}">Admin</a>
+            <a class="item" href="{{ url_for('auth.logout_view') }}">Logout</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro mobile_menu() -%}
+<div class="ui vertical inverted sidebar menu left">
+    <a class="item" href="{{ url_for('site.index') }}">Drift NorCal</a>
+
+    {% if not current_user.is_authenticated %}
+      <a class="item" href="{{ url_for('auth.login_view') }}">Login</a>
+    {% else %}
+      <a class="item" href="{{ url_for('admin.index') }}">Admin</a>
+      <a class="item" href="{{ url_for('auth.logout_view') }}">Logout</a>
+    {% endif %}
+</div>
+{%- endmacro %}
+
+{% macro footer() -%}
+<div class="ui vertical footer segment m">
+    <div class="ui center aligned text container">
+      <div class="row">
+        <p><i class='copyright icon'></i> {{ now.year }} Drift NorCal</p>
+        <a target="_blank" href="https://www.instagram.com/drift_norcal/"><i class="instagram black big icon"></i></a>
+        <a target="_blank" href="https://discord.gg/8qrHdhjGy4"><i class="discord black big icon"></i></a>
+      </div>
+    </div>
+  </div>
+{%- endmacro %}
