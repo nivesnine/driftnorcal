@@ -28,14 +28,11 @@
 
 {% macro mobile_menu() -%}
 <div class="ui vertical inverted sidebar menu left">
-    <a class="item" href="{{ url_for('site.index') }}">Drift NorCal</a>
-
-    {% if not current_user.is_authenticated %}
-      <a class="item" href="{{ url_for('auth.login_view') }}">Login</a>
-    {% else %}
-      <a class="item" href="{{ url_for('admin.index') }}">Admin</a>
-      <a class="item" href="{{ url_for('auth.logout_view') }}">Logout</a>
-    {% endif %}
+    <a class="item {%- if request.path == url_for('site.index') %} active{% endif %}" href="{{ url_for('site.index') }}">Drift NorCal</a>
+    <a class="item {%- if request.path == url_for('events.index') %} active{% endif %}" href="{{ url_for('events.index') }}">Events</a>
+    <a class="item {%- if request.path == url_for('media.index') %} active{% endif %}" href="{{ url_for('media.index') }}">Media</a>
+    <a class="item {%- if request.path == url_for('shops.index') %} active{% endif %}" href="{{ url_for('shops.index') }}">Shops</a>
+    <a class="item" target="_blank" href="https://discord.gg/8qrHdhjGy4">Community</a>
 </div>
 {%- endmacro %}
 
