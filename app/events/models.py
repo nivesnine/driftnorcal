@@ -8,7 +8,7 @@ class Event(db.Model):
     __tablename__ = 'events'
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(255), unique=True)
+    name = db.Column(db.String(255))
     date = db.Column(db.Date())
     host = db.Column(db.Integer())
     location = db.Column(db.Integer())
