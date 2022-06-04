@@ -39,7 +39,7 @@ class Event(db.Model):
 
     @classmethod
     def get_upcoming(cls):
-        return db.session.query(cls).order_by(asc(Event.date)).filter(Event.date >= date.today()).all()
+        return db.session.query(cls).filter(Event.date >= date.today()).all()
 
     @classmethod
     def all(cls):

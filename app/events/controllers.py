@@ -15,7 +15,7 @@ def index():
         data = []
         for event in events:
             data_set = [event.name,
-                event.date,
+                event.date.strftime("%m/%d/%Y (%A)"),
                 event.host,
                 event.location,
                 "$" + str(event.price)]

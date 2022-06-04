@@ -26,7 +26,8 @@
 <script>
   $(document).ready(function(){
     $('table.striped.table').DataTable( {
-          "ajax": "{{ url_for('events.index', ajax=1) }}"
+          "ajax": "{{ url_for('events.index', ajax=1) }}",
+          order: [[1, 'asc']],
       });
   })
 </script>
