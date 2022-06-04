@@ -40,8 +40,8 @@ class CreateEventForm(form.Form):
     date = fields.DateField('Start', validators=[validators.InputRequired()])
     host = fields.StringField('Host', validators=[validators.InputRequired()])
     location = fields.StringField('Location', validators=[validators.InputRequired()])
-    price = fields.IntegerField('Price', validators=[validators.InputRequired()])
-    details = fields.TextAreaField('Details', validators=[validators.InputRequired()])
+    price = fields.IntegerField('Price')
+    details = fields.TextAreaField('Details')
     submit = fields.SubmitField('Submit')
 
 
