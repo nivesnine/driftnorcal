@@ -10,7 +10,7 @@
         <p>Host: {{ event.host }}</p>
         <p>Location: {{ event.location }}</h3>
         <p>Date: {{ event.date }}</p>
-        <p>Cost: ${{ event.price }}</p>
+        {% if event.price %}<p>Price: ${{ event.price }}</p>{% endif %}
         <p>Info: {{ event.details|safe }}</p>
       {% else %}
         <h3>Event not found</h3>

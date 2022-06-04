@@ -14,14 +14,22 @@ def index():
     if request.args.get('ajax'):
         data = []
         for event in events:
+            if event.price is 0:
+                price = ''
+            else:
+                price = "$" + str(event.price)
+
             data_set = [event.name,
                 event.date.strftime("%m/%d/%Y (%A)"),
                 event.host,
                 event.location,
-                "$" + str(event.price)]
+                price]
+
             data_set.append(render_template('/events/view_event.html',
                 event_id=event.id))
+
             data.append(data_set)
+
         return jsonify({'data': data})
     return render_template("/events/index.html", events=events)
 
