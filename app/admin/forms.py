@@ -47,3 +47,15 @@ class CreateEventForm(form.Form):
 
 class EditEventForm(CreateEventForm):
     id = fields.HiddenField()
+
+
+class CreateMediaForm(form.Form):
+    instagram = fields.StringField('Instagram', validators=[validators.InputRequired()])
+    website = fields.StringField('Website')
+    locations = fields.StringField('Locations')
+    types = fields.StringField('Media Type', validators=[validators.InputRequired()])
+    submit = fields.SubmitField('Submit')
+
+
+class EditMediaForm(CreateMediaForm):
+    id = fields.HiddenField()

@@ -4,8 +4,29 @@
 {% block content %}
 <div class="ui one column grid container">
     <div class="column">
-      <h1>Media Personnel</h1>
-      <p>Directory coming soon. If you would like to be added please join the discord and message us, or find us on Instagram.</p>
+      <h1>Media</h1>
+      <p>If we have your information wrong or you would like to be listed on here please join the <a target="_blank" href="https://discord.gg/fH7fJUKgX9">Discord</a> and message us, or find us on <a target="_blank" href="https://www.instagram.com/drift_norcal/">Instagram</a> and let us know!</p>
+      <table class="ui striped table" style="width: 100%;">
+          <thead>
+            <tr>
+              <th>Instagram</th>
+              <th>Website</th>
+              <th>Locations</th>
+              <th>Types of Media</th>
+            </tr>
+        </thead>
+    </table>
     </div>
 </div>
+{% endblock %}
+
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $('table.striped.table').DataTable( {
+          "ajax": "{{ url_for('media.index', ajax=1) }}",
+      });
+  })
+</script>
 {% endblock %}

@@ -18,6 +18,7 @@ from app import db
 import app.admin.forms as AdminForms
 import app.auth.models as AuthModels
 import app.events.models as EventsModels
+import app.media.models as MediaModels
 from app.helpers.decorators import check_admin, check_login, has_role
 from app.helpers.utils import slugify
 
@@ -203,3 +204,56 @@ def delete_event(event_id):
     db.session.delete(event)
     db.session.commit()
     return redirect(url_for('admin.event_list'))
+
+
+# Create the media routes
+@admin.route('/media', defaults={'page': 1}, methods=['GET'])
+@admin.route('/media/<int:page>', methods=['GET'])
+@check_login
+@check_admin
+def media_list(page):
+    order = request.args['sort'] if 'sort' in request.args else 'id'
+    direction = request.args['d'] if 'd' in request.args else 'desc'
+    media = MediaModels.Media.get_sortable_list(order, direction, page)
+
+    return render_template("admin/media/list.html", media=media)
+
+
+@admin.route('/media/create', methods=['GET', 'POST'])
+@check_login
+@check_admin
+def create_media():
+    form = AdminForms.CreateMediaForm(request.form)
+    if helpers.validate_form_on_submit(form):
+        media = MediaModels.Media()
+        form.populate_obj(media)
+        db.session.add(media)
+        db.session.commit()
+        return redirect(url_for('admin.media_list'))
+
+    return render_template("admin/media/media.html", form=form)
+
+
+@admin.route('/media/edit/<int:media_id>', methods=['GET', 'POST'])
+@check_login
+@check_admin
+def edit_media(media_id):
+    media = MediaModels.Media.query.get(media_id)
+    form = AdminForms.EditEventForm(request.form, obj=media)
+    if helpers.validate_form_on_submit(form):
+        form.populate_obj(media)
+        db.session.add(media)
+        db.session.commit()
+        return redirect(url_for('admin.media_list'))
+
+    return render_template("admin/media/media.html", form=form)
+
+
+@admin.route('/media/delete/<int:media_id>', methods=['GET'])
+@check_login
+@check_admin
+def delete_media(media_id):
+    media = MediaModels.Media.query.get_or_404(media_id)
+    db.session.delete(media)
+    db.session.commit()
+    return redirect(url_for('admin.media_list'))

@@ -8,9 +8,10 @@ class Media(db.Model):
     __tablename__ = 'media'
 
     id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(80), unique=True)
-    price = db.Column(db.Integer)
-    bio = db.Column(db.String(255))
+    instagram = db.Column(db.String(255), unique=True)
+    website = db.Column(db.String(255))
+    locations = db.Column(db.String(255))
+    types = db.Column(db.String(255))
 
     def __eq__(self, other):
         return self.name
@@ -23,6 +24,16 @@ class Media(db.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def get_sortable_list(cls, order, direction, page):
+        per_page = app.config["ADMIN_PER_PAGE"]
+        if direction == 'desc':
+            o = desc(order)
+        else:
+            o = asc(order)
+        return Media.query.order_by(o).paginate(page, per_page, error_out=False)
+
 
     @classmethod
     def all(cls):

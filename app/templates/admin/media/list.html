@@ -1,0 +1,66 @@
+{% extends "admin/admin-base.html" %}
+{% block title %}Media List{% endblock %}
+{% block content %}
+
+<div class="ui stackable grid">
+  <div class="four wide column"></div>
+  <div class="center aligned ten wide column">
+{% if media %}
+    <table class="ui striped table">
+        <thead>
+            <tr>
+                <th>Media ID
+                    <a href="{{url_for('admin.media_list', page=1)}}?sort=id&d=asc">
+                      <i class='caret up icon'></i>
+                    </a>
+                    <a href="{{url_for('admin.media_list', page=1)}}?sort=id&d=desc">
+                      <i class='caret down icon'></i>
+                    </a>
+                </th>
+                <th>Instagram
+                    <a href="{{url_for('admin.media_list', page=1)}}?sort=instagram&d=asc">
+                      <i class='caret up icon'></i>
+                    </a>
+                    <a href="{{url_for('admin.media_list', page=1)}}?sort=instagram&d=desc">
+                      <i class='caret down icon'></i>
+                    </a>
+                </th>
+                <th>Edit</th>
+                {% if current_user.is_admin() %}<th>Delete</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for m in media.items %}
+            <tr>
+                <td>{{ m.id }}</td>
+                <td>{{ m.instagram }}</td>
+                <td><a class='ui tiny yellow button' href="{{ url_for('admin.edit_media', media_id=m.id) }}"><i class='pencil icon'></i>Edit</a></td>
+                {% if current_user.is_admin() %}<td><a class='ui tiny red button' href="{{ url_for('admin.delete_media', media_id=m.id) }}"><i class='trash icon'></i>Delete</a></td>{% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+  {% else %}
+  <p> You don't have any media </p>
+  {% endif %}
+
+  {% if media.has_prev %}
+    <a class='ui mini button blue left floated' href="{{ url_for('admin.media_list', page=media.prev_num) }}{% if 'sort' in request.args %}?sort={{request.args['sort']}}&d={{request.args['d']}}{% endif %}">
+      <i class='icon caret left'></i>
+    </a>
+  {% endif %}
+
+  {% if current_user.has_role('admin') %}
+    <a href="{{ url_for('admin.create_media') }}" class="ui mini button green"><i class='plus icon'></i> Create Post</a>
+  {% endif %}
+
+  {% if media.has_next %}
+    <a class='ui mini button blue right floated' href="{{ url_for('admin.media_list', page=media.next_num) }}{% if 'sort' in request.args %}?sort={{request.args['sort']}}&d={{request.args['d']}}{% endif %}">
+      <i class='icon caret right'></i>
+    </a>
+  {% endif %}
+
+  </div>
+</div>
+
+{% endblock %}
