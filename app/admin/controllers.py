@@ -239,7 +239,7 @@ def create_media():
 @check_admin
 def edit_media(media_id):
     media = MediaModels.Media.query.get(media_id)
-    form = AdminForms.EditEventForm(request.form, obj=media)
+    form = AdminForms.EditMediaForm(request.form, obj=media)
     if helpers.validate_form_on_submit(form):
         form.populate_obj(media)
         db.session.add(media)
